@@ -36,7 +36,8 @@ export class MusicMain extends Component {
     console.log(albums);
     
     this.setState({
-      searchAlbums: albums.data.items
+      searchAlbums: albums.data.items,
+      textInput: ''
     })
 
   }
@@ -51,6 +52,7 @@ export class MusicMain extends Component {
           name='textInput'
           onChange={this.handleOnChange} 
           value={this.state.textInput}
+          
           ></FormControl>
           <Button onClick={this.handleOnSearch} variant='secondary' >Search</Button>
           </InputGroup>

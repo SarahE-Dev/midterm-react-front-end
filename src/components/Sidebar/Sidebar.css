@@ -1,0 +1,36 @@
+.Sidebar {
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    background-color: rgb(21, 21, 21);
+    width: 20vw;
+    border-right: 3px solid fuchsia;
+}
+
+.menuTitle {
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.navlink {
+    text-decoration: none;
+    color: purple;
+}
+
+.menuItem {
+    margin: 30px;
+    text-align: center;
+}
+
+.navlink:hover{
+    color: white;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+.inactive {
+    text-decoration: none;
+}

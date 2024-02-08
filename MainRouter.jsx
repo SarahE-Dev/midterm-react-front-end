@@ -8,6 +8,10 @@ import PrivateRoute from "./src/components/PrivateRoute/PrivateRoute";
 import Profile from "./src/components/Profile/Profile";
 import MusicMain from "./src/components/MusicMain/MusicMain";
 import Album from "./src/components/Album/Album";
+import Sidebar from "./src/components/Sidebar/Sidebar";
+import Favorites from "./src/components/Favorites/Favorites";
+import Playlists from "./src/components/Playlists/Playlists";
+
 
 
 const MainRouter = (props)=> {
@@ -15,6 +19,7 @@ const MainRouter = (props)=> {
         <Router>
             <Nav user={props.user}
         handleUserLogout = {props.handleUserLogout} />
+            {props.user ? <Sidebar></Sidebar> : ''}
             
             <Routes>
                 <Route path='/' element={<Home/>} />
@@ -28,6 +33,12 @@ const MainRouter = (props)=> {
             </PrivateRoute>} />
             <Route path="/profile" element={<PrivateRoute user={props.user} >
               <Profile user={props.user} />
+            </PrivateRoute>} />
+            <Route path="/favorites" element={<PrivateRoute user={props.user} >
+              <Favorites user={props.user} access_token={props.access_token} />
+            </PrivateRoute>} />
+            <Route path="/playlists" element={<PrivateRoute user={props.user} >
+              <Playlists user={props.user} access_token={props.access_token} />
             </PrivateRoute>} />
             </Routes>  
         </Router>
