@@ -5,12 +5,17 @@
     background-color: rgb(21, 21, 21);
     width: 20vw;
     border-right: 3px solid fuchsia;
+    
 }
+
+
 
 .menuTitle {
     color: white;
     text-align: center;
     padding: 20px;
+    font-size: 2.35vw;
+    
 }
 
 .navlink {
@@ -19,8 +24,9 @@
 }
 
 .menuItem {
-    margin: 30px;
+    margin-top: 3vw;
     text-align: center;
+    font-size: 2.35vw;
 }
 
 .navlink:hover{

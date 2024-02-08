@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import './Album.css'
 import axios from 'axios'
 import { Container, Card } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+
 
 export class Album extends Component {
     state= {
@@ -42,7 +43,9 @@ export class Album extends Component {
                 <ul>
                     {this.state.albumTracks.map((track)=>{
                         return (
+                            <NavLink to={`/song/${track.id}`} style={{color: 'white'}}>
                             <li key={track.id} >{track.name}</li>
+                            </NavLink>
                         )
                     })}
                 </ul>

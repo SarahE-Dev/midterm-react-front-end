@@ -11,6 +11,7 @@ import Album from "./src/components/Album/Album";
 import Sidebar from "./src/components/Sidebar/Sidebar";
 import Favorites from "./src/components/Favorites/Favorites";
 import Playlists from "./src/components/Playlists/Playlists";
+import Song from "./src/components/Song/Song";
 
 
 
@@ -39,6 +40,9 @@ const MainRouter = (props)=> {
             </PrivateRoute>} />
             <Route path="/playlists" element={<PrivateRoute user={props.user} >
               <Playlists user={props.user} access_token={props.access_token} />
+            </PrivateRoute>} />
+            <Route path="/song/:id" element={<PrivateRoute user={props.user} >
+              <Song user={props.user} access_token={props.access_token} />
             </PrivateRoute>} />
             </Routes>  
         </Router>

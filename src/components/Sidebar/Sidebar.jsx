@@ -12,7 +12,11 @@ export class Sidebar extends Component {
         <hr style={{color: 'white', margin: '10px 30px'}} />
         <NavLink className='navlink' to='/favorites'><h3 className='menuItem favoritesItem'>Favorites</h3></NavLink>
         <NavLink className='navlink'  to='/playlists'><h3 className={`menuItem playlistsItem ${({ isActive }) => (isActive ? 'active' : 'inactive')}`}>Playlists</h3></NavLink>
+        
+        
         </Container>
+        
+        
       </div>
     )
   }
