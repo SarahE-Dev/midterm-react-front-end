@@ -1,7 +1,14 @@
 .MusicMain {
     background-color: black;
     color: white;
-    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10vh;
+}
+
+.back {
+    background-color: black;
     height: 90vh;
-    padding-top: 10vh;
 }

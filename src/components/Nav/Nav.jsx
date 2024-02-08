@@ -8,7 +8,7 @@ export class Nav extends Component {
     return (
         <Navbar data-bs-theme='dark' bg='dark' className="bg-body-tertiary Navbar">
         <Container>
-          <Link style={{textDecoration: 'none'}} to='/music'>
+          <NavLink style={{textDecoration: 'none'}} to='/music'>
           <Navbar.Brand href="" style={{fontSize: 35}}>
             <img
               alt=""
@@ -18,30 +18,15 @@ export class Nav extends Component {
               className="d-inline-block align-top"
             />{' '}
           </Navbar.Brand>
-          </Link>
-          <Navbar.Text>
-          <ul>{this.props.user ? 
-            <li><NavLink to="/profile">{this.props.user.username}</NavLink></li> : 
-                <li>
-                    <NavLink activeclassname="selected" to="/sign-up" >
-                        Sign up
-                    </NavLink>
-                </li>
-              }
-              {this.props.user ? <li>
-                <NavLink to="/login" onClick={this.props.handleUserLogout}>Logout</NavLink>
-              </li> : 
-                <li>
-                    <NavLink  activestyle={{borderBottom: "1px solid white"}} to="/login" >
-                        Login
-                    </NavLink>
-                </li>
-  }
-            </ul>
-            </Navbar.Text>
+          </NavLink>
+          
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            {this.props.user ? `Signed in as: ${this.props.user.username}` : ''} 
+            {this.props.user ? <div className='menu'>Signed in as: <NavLink to="/profile">{this.props.user.username}</NavLink> <NavLink to="/login" onClick={this.props.handleUserLogout}>Logout</NavLink></div> : <div className='menu2'><NavLink  activestyle={{borderBottom: "1px solid white"}} to="/login" >
+                        Login
+                    </NavLink><NavLink activeclassname="selected" to="/sign-up" >
+                        Sign up
+                    </NavLink></div>} 
           </Navbar.Text>
         </Navbar.Collapse>
         </Container>

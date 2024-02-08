@@ -7,32 +7,28 @@ import SignUp from "./src/components/SignUp/SignUp";
 import PrivateRoute from "./src/components/PrivateRoute/PrivateRoute";
 import Profile from "./src/components/Profile/Profile";
 import MusicMain from "./src/components/MusicMain/MusicMain";
+import Album from "./src/components/Album/Album";
+
 
 const MainRouter = (props)=> {
     return (
         <Router>
             <Nav user={props.user}
         handleUserLogout = {props.handleUserLogout} />
+            
             <Routes>
                 <Route path='/' element={<Home/>} />
                 <Route path="/login"  element={props.user ? <Navigate to="/music"/> : <Login handleUserLogin={props.handleUserLogin} />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/music" element={<PrivateRoute >
-              <MusicMain/>
+              <MusicMain user={props.user} access_token={props.access_token} />
+            </PrivateRoute>} />
+            <Route path="/music/:id" element={<PrivateRoute >
+              <Album user={props.user} access_token={props.access_token} />
             </PrivateRoute>} />
             <Route path="/profile" element={<PrivateRoute user={props.user} >
               <Profile user={props.user} />
             </PrivateRoute>} />
-
-                {/* <Route path="/profile" element={<PrivateRoute user={props.user} >
-                <Profile user={props.user} />
-                </PrivateRoute>} />
-                <Route path="/music-app" element={<PrivateRoute user={props.user} >
-                <MusicMain/>
-                </PrivateRoute>} />
-                <Route path='/' element={ <Home user={props.user} /> } />
-                <Route path='/sign-up' element={<SignUp/>} />
-                <Route path='/login' element={<Login handleUserLogin={props.handleUserLogin} />} /> */}
             </Routes>  
         </Router>
     )
