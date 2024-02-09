@@ -47,14 +47,14 @@ export class MusicMain extends Component {
       <div className='back'>
       <div className='MusicMain'>
         <Container>
-          <InputGroup style={{marginBottom: 30}}>
+          <InputGroup style={{margin: '5vw 15vw', width: '45vw'}}>
           <FormControl
           name='textInput'
           onChange={this.handleOnChange} 
           value={this.state.textInput}
-          
+          placeholder='Search for an Artist'
           ></FormControl>
-          <Button onClick={this.handleOnSearch} variant='secondary' >Search</Button>
+          <Button onClick={this.handleOnSearch} variant='secondary' >Find Albums</Button>
           </InputGroup>
         </Container>
         <Container>
@@ -64,11 +64,11 @@ export class MusicMain extends Component {
               return (
                 <Link key={album.id} style={{textDecoration: 'none', color: 'black'}} to={{pathname:`/music/${album.id}`
          }}  >
-                <Card key={album.id}>
+                <Card style={{width: '15vw', height: '15vw', marginBottom: '5vh', borderRadius: 0}} key={album.id}>
             <Card.Img src={album.images[0].url}/>
-            <Card.Body>
+            {/* <Card.Body>
               <Card.Title>{album.name}</Card.Title>
-            </Card.Body>
+            </Card.Body> */}
           </Card>
           </Link>
               )

@@ -23,7 +23,7 @@ export class Song extends Component {
             this.setState({
                 audioSrc: song.data.preview_url
             })
-            audio.play()
+            
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +31,7 @@ export class Song extends Component {
   render() {
     return (
       <div className='Song'>Song
-      <audio src={this.state.audioSrc}></audio>
+      
       </div>
     )
   }

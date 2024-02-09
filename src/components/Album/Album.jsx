@@ -37,7 +37,7 @@ export class Album extends Component {
     return (
       <div class='Album'>
         <div className="albumMain">
-            <Container>
+            <Container style={{width: '30vw'}}>
                 <div>{this.state.albumTitle}</div>
                 <div>{this.state.albumArtist}</div>
                 <ul>
