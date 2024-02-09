@@ -19,15 +19,17 @@ export class App extends Component {
     user: null,
     access_token: ''
   }
-  componentDidMount(){
+  async componentDidMount(){
     let currentUser = window.localStorage.getItem('jwt') ? jwtDecode(window.localStorage.getItem('jwt')) : null;
     console.log(currentUser);
     if(currentUser && currentUser.exp > (Date.now() / 1000)){
+      let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${currentUser.username}`)
       this.setState({
         user: {
           username: currentUser.username,
           email: currentUser.email,
-          id: currentUser.id
+          id: currentUser.id,
+          playlists: playlists
         }
       })
     }
@@ -41,11 +43,14 @@ export class App extends Component {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
+    let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
     console.log(token);
+    console.log(playlists);
     window.localStorage.setItem('access_token', token.data.access_token)
     this.setState({
       user: user,
-      access_token: window.localStorage.getItem('access_token')
+      access_token: window.localStorage.getItem('access_token'),
+      playlists: playlists.data.payload
     })
   }
   handleUserLogout=(user)=>{
@@ -61,7 +66,7 @@ export class App extends Component {
     return (
       <div>
         <ToastContainer position='top-center'/>
-        <MainRouter access_token={this.state.access_token} handleUserLogout = {this.handleUserLogout} handleUserLogin = {this.handleUserLogin} 
+        <MainRouter playlists={this.state.playlists} access_token={this.state.access_token} handleUserLogout = {this.handleUserLogout} handleUserLogin = {this.handleUserLogin} 
         user={this.state.user} />
         
       </div>
