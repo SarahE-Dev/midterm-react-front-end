@@ -8,6 +8,7 @@ import SignUp from './components/SignUp/SignUp'
 import { jwtDecode } from 'jwt-decode'
 import setAxiosAuthToken from './utils/setAxiosAuthToken'
 import axios from 'axios'
+import Axios from './utils/Axios'
 
 const clientId = 'ecd8fa6a04bd4deab879476a85c542b4'
 const clientSecret = '0058529087bb4a53872707043a4cf1ff'
@@ -65,6 +66,10 @@ export class App extends Component {
     window.localStorage.removeItem('access_token')
     setAxiosAuthToken(null)
   }
+  
+
+  
+  
   render() {
     return (
       <div>

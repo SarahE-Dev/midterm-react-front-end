@@ -1,6 +1,7 @@
 .Favorites {
     height: 90vh;
     width: 80vw;
-    background-color: blueviolet;
+    background-color: black;
+    color: white;
     margin-left: 20vw;
 }

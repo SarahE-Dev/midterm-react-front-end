@@ -38,13 +38,13 @@ export class SignUp extends Component {
     handleOnChange=(e)=>{
         this.setState({
             [e.target.name]: e.target.value,
-            [`${event.target.name}Error`] : ""
+            [`${e.target.name}Error`] : ""
         }, ()=>{
             // Targets each case and runs the proper checks on each value, sets error message if the boolean from the check is false.
-            switch(event.target.name){
+            switch(e.target.name){
                 case "firstName":
                 case "lastName": this.setState({
-                    [`${event.target.name}Error`]: isAlpha(this.state[event.target.name]) ? "" : `${event.target.placeholder} should be alphabetical.`
+                    [`${e.target.name}Error`]: isAlpha(this.state[e.target.name]) ? "" : `${e.target.placeholder} should be alphabetical.`
                 })
                     break;
                 case "email": this.setState({

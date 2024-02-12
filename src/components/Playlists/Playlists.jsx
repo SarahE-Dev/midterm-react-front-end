@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import './Playlists.css'
 import { Button, Container, Form, InputGroup, Accordion } from 'react-bootstrap'
 import axios from 'axios'
+import Axios from '../../utils/Axios'
 
 export class Playlists extends Component {
   state={
-    playlists: [],
+    playlists: this.props.playlists,
     playlistInput: '',
     playlistsRecieved: false
   }
@@ -18,6 +19,7 @@ export class Playlists extends Component {
 
   handleOnSubmit= async (e)=>{
     e.preventDefault()
+    
     try {
       const newPlaylist = await axios.post('http://localhost:3000/api/playlist/create-playlist', {
         username: this.props.user.username,
@@ -26,6 +28,7 @@ export class Playlists extends Component {
       this.setState({
         playlists: [...this.state.playlists,newPlaylist.data.payload]
       })
+      this.getPlaylists()
       console.log(newPlaylist);
     } catch (error) {
       console.log(error);
@@ -61,7 +64,15 @@ export class Playlists extends Component {
 
 
 
-  
+  removePlaylist=async(id)=>{
+      try {
+        const deleted = await Axios.delete(`http://localhost:3000/api/playlist/delete-playlist/${id}`)
+        console.log(deleted);
+      } catch (error) {
+        console.log(error);
+      }
+      this.getPlaylists()
+  }
 
 
   
@@ -82,7 +93,7 @@ export class Playlists extends Component {
 
         <div style={{color: 'white'}}>{this.state.playlists.map(item=>{
           return (
-            <h1>{item.playlistName}</h1>
+            <h1 onClick={()=>{this.removePlaylist(item._id)}} key={item._id}>{item.playlistName}</h1>
           )
         })}</div>
         

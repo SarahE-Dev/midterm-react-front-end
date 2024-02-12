@@ -74,7 +74,7 @@ export class MusicMain extends Component {
                 <Link key={album.id} style={{textDecoration: 'none', color: 'black'}} to={{pathname:`/music/${album.id}`
          }}  >
                 <Card style={{width: '15vw', height: '15vw', marginBottom: '5vh', borderRadius: 5}} key={album.title}>
-            <Card.Img className='z-0' src={album.images[0].url}/>
+            <Card.Img className='z-0' src={album.images[1].url}/>
             
           </Card>
           </Link>
