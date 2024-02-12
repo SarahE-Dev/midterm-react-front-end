@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Favorites.css'
 import Axios from '../../utils/Axios'
 import { Card, ListGroup } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 export class Favorites extends Component {
   state={
@@ -41,7 +42,11 @@ export class Favorites extends Component {
       <div className='Favorites'>
         {
           this.state.favoriteSongs.map((song)=>{
-            return (<h1 key={song.songID}>{song.songTitle}</h1>)
+            return (
+              <Link to={`/song/${song.songID}`}>
+            <h1 key={song.songID}>{song.songTitle}</h1>
+            </Link>
+            )
           })
         }
       </div>

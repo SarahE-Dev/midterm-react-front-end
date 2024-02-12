@@ -36,9 +36,9 @@ export class MusicMain extends Component {
     const data = await axios.get(`https://api.spotify.com/v1/search?q=${this.state.textInput}&type=artist`, searchParameters)
     const artistID = data.data.artists.items[0].id;
     
-    console.log(artistID);
+    
     const albums = await axios.get(`https://api.spotify.com/v1/artists/${artistID}/albums?include_groups=album&market=US&limit=50`, searchParameters)
-    console.log(albums);
+    
     
     this.setState({
       searchAlbums: albums.data.items,

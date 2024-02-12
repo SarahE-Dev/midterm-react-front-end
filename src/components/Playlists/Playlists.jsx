@@ -6,7 +6,7 @@ import Axios from '../../utils/Axios'
 
 export class Playlists extends Component {
   state={
-    playlists: this.props.playlists,
+    playlists: [],
     playlistInput: '',
     playlistsRecieved: false
   }
@@ -26,10 +26,9 @@ export class Playlists extends Component {
         playlistName: this.state.playlistInput
       })
       this.setState({
-        playlists: [...this.state.playlists,newPlaylist.data.payload]
+        playlists: [...this.state.playlists, newPlaylist.data.payload]
       })
-      this.getPlaylists()
-      console.log(newPlaylist);
+      
     } catch (error) {
       console.log(error);
     }
@@ -39,10 +38,9 @@ export class Playlists extends Component {
     try {
       const playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
       this.setState({
-        playlists: [...playlists.data.payload],
+        playlists: playlists.data.payload,
         playlistsRecieved: true
       })
-      console.log(playlists);
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +51,7 @@ export class Playlists extends Component {
       return
     }
     this.getPlaylists()
+    
   }
 
   componentDidMount(){
@@ -91,9 +90,12 @@ export class Playlists extends Component {
           <Button variant='dark' onClick={this.handleOnSubmit}>Create Playlist</Button>
         </InputGroup>
 
-        <div style={{color: 'white'}}>{this.state.playlists.map(item=>{
+        <div style={{color: 'white'}}>{this.state.playlists.map((item, i)=>{
           return (
-            <h1 onClick={()=>{this.removePlaylist(item._id)}} key={item._id}>{item.playlistName}</h1>
+            <div key={`div${item._id}`}>
+            <h1  key={item._id}>{item.playlistName}</h1>
+            <Button onClick={()=>{this.removePlaylist(item._id)}} key={`button${item._id}`}>Remove Playlist</Button>
+            </div>
           )
         })}</div>
         

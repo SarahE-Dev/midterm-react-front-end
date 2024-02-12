@@ -39,7 +39,7 @@ const MainRouter = (props)=> {
               <Favorites user={props.user} access_token={props.access_token} />
             </PrivateRoute>} />
             <Route path="/playlists" element={<PrivateRoute user={props.user} >
-              <Playlists getAllPlaylists={props.getAllPlaylists} createPlaylist={props.createPlaylist} playlists={props.playlists} user={props.user} access_token={props.access_token} />
+              <Playlists playlists={props.playlists} user={props.user} access_token={props.access_token} />
             </PrivateRoute>} />
             <Route path="/song/:id" element={<PrivateRoute user={props.user} >
               <Song user={props.user} access_token={props.access_token} />
