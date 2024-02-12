@@ -23,7 +23,7 @@ const MainRouter = (props)=> {
             {props.user ? <Sidebar></Sidebar> : ''}
             
             <Routes>
-                <Route path='/' element={<Home/>} />
+                <Route path='/'  element={props.user ? <Navigate to="/music"/> : <Home />} />
                 <Route path="/login"  element={props.user ? <Navigate to="/music"/> : <Login handleUserLogin={props.handleUserLogin} />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/music" element={<PrivateRoute >

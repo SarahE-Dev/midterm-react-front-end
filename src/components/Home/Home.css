@@ -1,0 +1,15 @@
+.Home {
+    background-color: black;
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10vh;
+}
+
+.buttonLogin {
+    width: 20vw;
+    
+}

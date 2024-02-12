@@ -3,6 +3,11 @@ import './MusicMain.css'
 import { Container, InputGroup, FormControl, Button, Card, Row, NavLink } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {faHeart} from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
+
 
 
 
@@ -49,7 +54,7 @@ export class MusicMain extends Component {
       <div className='back'>
       <div className='MusicMain'>
         <Container>
-          <InputGroup style={{margin: '5vw 15vw', width: '45vw'}}>
+          <InputGroup style={{margin: '7vw 15vw', width: '40vw'}}>
           <FormControl
           name='textInput'
           onChange={this.handleOnChange} 
@@ -64,15 +69,19 @@ export class MusicMain extends Component {
           
             {this.state.searchAlbums.map((album, i)=>{
               return (
+                
+                
                 <Link key={album.id} style={{textDecoration: 'none', color: 'black'}} to={{pathname:`/music/${album.id}`
          }}  >
-                <Card style={{width: '15vw', height: '15vw', marginBottom: '5vh', borderRadius: 0}} key={album.id}>
-            <Card.Img src={album.images[0].url}/>
-            {/* <Card.Body>
-              <Card.Title>{album.name}</Card.Title>
-            </Card.Body> */}
+                <Card style={{width: '15vw', height: '15vw', marginBottom: '5vh', borderRadius: 5}} key={album.title}>
+            <Card.Img className='z-0' src={album.images[0].url}/>
+            
           </Card>
           </Link>
+          
+          
+          
+          
               )
             })}
           

@@ -2,22 +2,7 @@
 .Navbar {
     height: 10vh;
     border-bottom: 3px solid #1DB954;
+    width: 100vw;
+    
 }
 
-.menu {
-    display: flex;
-    width: 250px;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.menu2 {
-    display: flex;
-    width: 10vw;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.selected {
-    text-decoration: underline;
-}

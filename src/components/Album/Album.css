@@ -1,8 +1,15 @@
 .Album {
     background-color: black;
     height: 90vh;
+    overflow: scroll;
     width: 80vw;
     color: white;
     margin-left: 20vw;
+}
+
+.nlink:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color: blue;
 }
 

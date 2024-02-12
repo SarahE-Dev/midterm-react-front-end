@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
-import { Navbar, Container } from 'react-bootstrap'
+import { Navbar, Container, Nav as Navi } from 'react-bootstrap'
 import './Nav.css'
 import { Link , NavLink} from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faHeart, faHeadphones} from '@fortawesome/free-solid-svg-icons'
+
 
 export class Nav extends Component {
   render() {
     return (
         <Navbar data-bs-theme='dark' bg='dark' className="bg-body-tertiary Navbar">
         <Container>
-          <NavLink style={{textDecoration: 'none'}} to='/music'>
-          <Navbar.Brand href="" style={{fontSize: 35}}>
+          
+          <NavLink style={{textDecoration: 'none'}} to={this.props.user ? '/music' : '/'}  >
+          <Navbar.Brand style={{fontSize: 35}}>
+            <FontAwesomeIcon style={{color: 'purple'}} icon={faHeadphones}/>
             <img
               alt=""
               src="./src/assets/Spotify_Logo_RGB_Black.png"
@@ -20,15 +25,38 @@ export class Nav extends Component {
           </Navbar.Brand>
           </NavLink>
           
-          <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            {this.props.user ? <div className='menu'>Signed in as: <NavLink to="/profile">{this.props.user.username}</NavLink> <NavLink to="/login" onClick={this.props.handleUserLogout}>Logout</NavLink></div> : <div className='menu2'><NavLink  activestyle={{borderBottom: "1px solid white"}} to="/login" >
+            
+          
+            
+            {this.props.user ? <Navi className='justify-content-end ' variant='underline'
+            style={{paddingTop: 17}} 
+            >
+              <Navbar.Text>
+                 <p>Signed in as:  </p> 
+                 </Navbar.Text>
+              <Navi.Item >
+                
+                <Navi.Link
+                eventKey='1'
+                as={NavLink}
+                style={{textDecoration: 'none', color: 'purple'}}
+                to="/profile">{this.props.user.username}
+                </Navi.Link>
+              </Navi.Item>
+              <Navi.Item>
+                <Navi.Link as={NavLink} 
+                eventKey='2'
+                style={{textDecoration: 'none', color: 'white'}}
+                to="/login" onClick={this.props.handleUserLogout}>Logout
+                </Navi.Link>
+              </Navi.Item>
+            </Navi> : <Navi className='justify-content-end' variant='underline' ><Navi.Item><Navi.Link as={NavLink} eventKey='1' style={{textDecoration: 'none', color: 'white'}} to="/login" >
                         Login
-                    </NavLink><NavLink activeclassname="selected" to="/sign-up" >
+                    </Navi.Link></Navi.Item><Navi.Item><Navi.Link as={NavLink} eventKey='2'  style={{textDecoration: 'none', color: 'white'}} activeclassname="selected" to="/sign-up" >
                         Sign up
-                    </NavLink></div>} 
-          </Navbar.Text>
-        </Navbar.Collapse>
+                    </Navi.Link></Navi.Item></Navi>} 
+          
+        
         </Container>
       </Navbar>
       

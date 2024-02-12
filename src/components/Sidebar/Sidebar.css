@@ -1,10 +1,14 @@
 .Sidebar {
     position: fixed;
     left: 0;
-    height: 100vh;
+    height: 90vh;
     background-color: rgb(21, 21, 21);
     width: 20vw;
-    border-right: 3px solid fuchsia;
+    border-right: 3px solid rgb(114, 23, 167);
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
     
 }
 
@@ -14,29 +18,18 @@
     color: white;
     text-align: center;
     padding: 20px;
-    font-size: 2.35vw;
+    font-size: 20;
+    color: rgb(193, 14, 109);
     
 }
 
-.navlink {
-    text-decoration: none;
-    color: purple;
+.headphones {
+    background: linear-gradient( blueviolet, deeppink, yellow);border-radius: 25px;
+    padding: 10px;
+    
+    
 }
 
-.menuItem {
-    margin-top: 3vw;
-    text-align: center;
-    font-size: 2.35vw;
-}
 
-.navlink:hover{
-    color: white;
-}
 
-.active {
-    text-decoration: underline;
-}
 
-.inactive {
-    text-decoration: none;
-}

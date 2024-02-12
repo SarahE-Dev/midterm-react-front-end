@@ -17,7 +17,8 @@ const grantType = `grant_type=client_credentials&client_id=${clientId}&client_se
 export class App extends Component {
   state = {
     user: null,
-    access_token: ''
+    access_token: '',
+    playlists: []
   }
   async componentDidMount(){
     let currentUser = window.localStorage.getItem('jwt') ? jwtDecode(window.localStorage.getItem('jwt')) : null;
@@ -29,7 +30,8 @@ export class App extends Component {
           username: currentUser.username,
           email: currentUser.email,
           id: currentUser.id,
-          playlists: playlists
+          playlists: playlists,
+          lastName: currentUser.lastName
         }
       })
     }
@@ -56,7 +58,8 @@ export class App extends Component {
   handleUserLogout=(user)=>{
     this.setState({
       user: null,
-      access_token: ''
+      access_token: '',
+      playlists: []
     })
     window.localStorage.removeItem('jwt')
     window.localStorage.removeItem('access_token')
