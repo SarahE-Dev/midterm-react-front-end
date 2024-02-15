@@ -3,6 +3,7 @@ import './MusicMain.css'
 import { Container, InputGroup, FormControl, Button, Card, Row, NavLink } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import logo from '../../images/Fyre.png'
 
 
 
@@ -68,8 +69,7 @@ export class MusicMain extends Component {
       <img
               style={{borderRadius: '20px'}}
               alt=""
-              src="./images/Fyre.png"
-              id='logo'
+              src={logo}
               height="120"
               className="d-inline-block align-top"
             />

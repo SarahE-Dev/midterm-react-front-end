@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Album.css'
 import axios from 'axios'
-import { Container, Card, ListGroup, Button, Form, Modal } from 'react-bootstrap'
+import { Container, Card, ListGroup, Button, Form, Modal, InputGroup, FormControl } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import Axios from '../../utils/Axios'
 
@@ -23,7 +23,9 @@ export class Album extends Component {
         show: false,
         playlistIDSelected: '',
         songSelection: {},
-        albumDate: ''
+        albumDate: '',
+        createPlaylistShow: false,
+        playlistInput: ''
     }
     checkForFaveSong=(id)=>{
       let found = this.state.favoriteSongs.filter(elem=>elem.songID === id)
@@ -88,7 +90,7 @@ handleModalSave= async ()=>{
 
     getPlaylists=async()=>{
       try {
-        const playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+        const playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
         this.setState({
           playlists: playlists.data.payload,
           playlistsRecieved: true
@@ -117,6 +119,25 @@ handleModalSave= async ()=>{
           songImage: songImage
         }
       })
+    }
+
+    createPlaylist=async(e)=>{
+      e.preventDefault()
+      if(this.state.playlistInput !== ''){
+        try {
+          const newPlaylist = await Axios.post('http://localhost:3000/api/playlist/create-playlist', {
+            username: this.props.user.username,
+            playlistName: this.state.playlistInput
+          })
+          this.setState({
+            playlists: [...this.state.playlists, newPlaylist.data.payload],
+            createPlaylistShow: false
+          })
+          
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
     getAlbumData=async()=>{
@@ -148,12 +169,18 @@ handleModalSave= async ()=>{
     }
     }
 
+    handleOnChange=(e)=>{
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
+
     displayAlbumInfo=()=>{
         return (
           <div className='Album'>
           <div className="albumMain">
           <Modal className='my-modal' onHide={this.handleModalClose} centered show={this.state.show}>
-            <Modal.Header closeButton><h4>Select a Playlist to add song to: </h4></Modal.Header>
+            <Modal.Header style={{color: 'black'}} closeButton><h4>Select a Playlist to add song to: </h4></Modal.Header>
             <Modal.Body>
               <Form>
               {this.state.playlists.map(item=>{
@@ -169,9 +196,17 @@ handleModalSave= async ()=>{
                 )
               })}
               </Form>
+              
+              {this.state.createPlaylistShow ? <Form style={{marginTop: 7}}>
+                <InputGroup >
+                  <FormControl value={(this.state.playlistInput)} name='playlistInput' onChange={this.handleOnChange} style={{backgroundColor: 'black', color: 'white'}}></FormControl>
+                  <Button size='sm' variant='light' onClick={this.createPlaylist}>Create</Button>
+                </InputGroup>
+              </Form> : <Button style={{marginTop: 7}} size='sm' variant='outline-dark' onClick={()=>this.setState({createPlaylistShow: true})}>Create PLaylist</Button>}
+              
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleModalSave}>Save</Button>
+              <Button variant='dark' onClick={this.handleModalSave}>Save</Button>
             </Modal.Footer>
           </Modal>
               <Card style={{width: '60vw', marginLeft: '10vw', marginTop: '5vh', backgroundColor: 'black', color: 'white', border: '1px solid white'}}>

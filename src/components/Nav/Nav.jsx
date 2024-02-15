@@ -20,7 +20,7 @@ export class Nav extends Component {
         style={{color: 'fuchsia'}} icon={faHeadphones}/>
             
           </Navbar.Brand>
-            <Navbar.Brand style={{fontSize: '2.25vw', fontFamily: '"Permanent Marker", cursive'}}>{<span style={{color: 'blueviolet'}}>F</span>}{<span style={{color: 'purple'}}>Y</span>}{<span style={{color: 'deeppink'}}>R</span>}{<span style={{color: 'fuchsia'}}>E</span>} {<span style={{color: 'rgb(190, 43, 141)'}}>T</span>}{<span style={{color: 'purple'}}>U</span>}{<span style={{color: 'deeppink'}}>N</span>}{<span style={{color: 'fuchsia'}}>E</span>}{<span style={{color: 'blueviolet'}}>S</span>}</Navbar.Brand>
+            <Navbar.Brand style={{fontSize: '2.25vw', fontFamily: '"Permanent Marker", cursive', textShadow: '1.5px -1.5px 1.5px white'}}>{<span style={{color: 'blueviolet'}}>F</span>}{<span style={{color: 'purple'}}>Y</span>}{<span style={{color: 'deeppink'}}>R</span>}{<span style={{color: 'fuchsia'}}>E</span>} {<span style={{color: 'rgb(190, 43, 141)'}}>T</span>}{<span style={{color: 'purple'}}>U</span>}{<span style={{color: 'deeppink'}}>N</span>}{<span style={{color: 'fuchsia'}}>E</span>}{<span style={{color: 'blueviolet'}}>S</span>}</Navbar.Brand>
           
           </div>
           </NavLink>

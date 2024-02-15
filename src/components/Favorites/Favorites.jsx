@@ -43,9 +43,9 @@ export class Favorites extends Component {
         <Container>
           <Row className='mx-4 row row-cols-4'>
         {
-          this.state.favoriteSongs.map((song)=>{
+          this.state.favoriteSongs.map((song, i)=>{
             return (
-              <Card style={{margin: 45, border: '1px solid white', padding: 20}}  className='text-center bg-black text-white card'>
+              <Card key={`${song.songID}${i}`} style={{margin: 45, border: '1px solid white', padding: 20, width: '12rem'}}  className='text-center bg-black text-white card'>
                 <Card.Img variant='top' src={song.songImage} />
                 <Card.Body>
                   <Link style={{textDecoration: 'none', color: 'white'}} to={`/song/${song.songID}`}>

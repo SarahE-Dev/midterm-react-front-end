@@ -5,7 +5,7 @@ import Axios from '../../utils/Axios'
 import {Slide, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { isAlpha, isAlphanumeric, isEmail, isStrongPassword } from 'validator'
-
+import logo from '../../images/Fyre.png'
 
 export class SignUp extends Component {
     state={
@@ -117,8 +117,7 @@ export class SignUp extends Component {
         <img
               style={{borderRadius: 20}}
               alt=""
-              src="./images/Fyre.png"
-              id='logo'
+              src={logo}
               height="150"
               className="d-inline-block align-top"
             />{' '}

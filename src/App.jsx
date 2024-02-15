@@ -26,10 +26,10 @@ export class App extends Component {
     console.log(currentUser);
     if(currentUser && currentUser.exp > (Date.now() / 1000)){
       let token_time = window.localStorage.getItem('token_time')
-      if(!token_time || (token_time < Date.now() - 3599)){
+      if(!token_time || (Date.now() - token_time > 3599)){
         this.grabSpotifyToken()
       }
-      let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${currentUser.username}`)
+      let playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${currentUser.username}`)
       this.setState({
         user: {
           username: currentUser.username,
@@ -57,9 +57,7 @@ export class App extends Component {
   handleUserLogin= async (user)=>{
     
     this.grabSpotifyToken()
-    let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
-    
-    console.log(playlists);
+    let playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
     
     this.setState({
       user: user,

@@ -2,3 +2,7 @@
     background-color: black;
     height: 90vh;
 }
+
+audio::-webkit-media-controls-panel{
+    background-color: purple;
+}

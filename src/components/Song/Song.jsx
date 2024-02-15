@@ -3,6 +3,7 @@ import './Song.css'
 import axios from 'axios'
 import { Button, Container, Modal, Form, Image } from 'react-bootstrap'
 import Axios from '../../utils/Axios'
+import logo from '../../images/Spotify_Logo_RGB_Black.png'
 
 
 export class Song extends Component {
@@ -20,7 +21,10 @@ export class Song extends Component {
         favoritesRecieved: false,
         show: false,
         playlistIDSelected: '',
-        spotLink: ''
+        spotLink: '',
+        playlistInput: '',
+        createPlaylistShow: false,
+        username: ''
 
     }
     checkForFaveSong=(id)=>{
@@ -34,22 +38,48 @@ export class Song extends Component {
       })
     }
 
+    handleOnChange=(e)=>{
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
+
+    createPlaylist=async(e)=>{
+      e.preventDefault()
+      if(this.state.playlistInput !== ''){
+        try {
+          const newPlaylist = await Axios.post('http://localhost:3000/api/playlist/create-playlist', {
+            username: this.props.user.username,
+            playlistName: this.state.playlistInput
+          })
+          this.setState({
+            playlists: [...this.state.playlists, newPlaylist.data.payload],
+            createPlaylistShow: false
+          })
+          
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+
     handleModalClose=()=>{
       this.setState({
         show: false
       })
     }
 
-    addToFavorites= async (songID, songTitle, songArtist, songImage)=>{
+    addToFavorites= async ()=>{
       
       try {
         let newFave = await Axios.put(`http://localhost:3000/api/user/add-favorite-song/${this.state.username}`, {
-          songID: songID,
-          songArtist: songArtist,
-          songTitle: songTitle,
-          songImage: songImage,
+          songID: this.state.songID,
+          songArtist: this.state.songArtist,
+          songTitle: this.state.songTitle,
+          songImage: this.state.songImage,
 
         })
+        console.log(newFave);
         this.setState({
           favoriteSongs: newFave.data.payload.favoriteSongs,
           isFave: !this.state.isFave
@@ -61,12 +91,11 @@ export class Song extends Component {
 
     getPlaylists=async()=>{
       try {
-        const playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+        const playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
         this.setState({
           playlists: [...playlists.data.payload],
           playlistsRecieved: true
         })
-        console.log(playlists);
       } catch (error) {
         console.log(error);
       }
@@ -109,9 +138,10 @@ export class Song extends Component {
       const song = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, searchParameters)
       const user = await Axios.get(`http://localhost:3000/api/user/get-user-by-id/${this.props.user.id}`)
       console.log(song);
-      let found = user.data.payload.favoriteSongs.filter(elem=>{
-        return elem.songID == id
-      })
+      console.log(user);
+      console.log(this.state.songID);
+      let fave = user.data.payload.favoriteSongs.filter(elem=>elem.songID == id)
+
       
       this.setState({
         songTitle: song.data.name,
@@ -120,9 +150,10 @@ export class Song extends Component {
         audioSrc: song.data.preview_url,
         favoriteSongs: user.data.payload.favoriteSongs,
         songID: id,
-        isFave: found.length > 0,
+        isFave: fave.length > 0,
         favoritesRecieved: true,
-        spotLink: song.data.external_urls.spotify
+        spotLink: song.data.external_urls.spotify,
+        username: user.data.payload.username
       })
   } catch (error) {
       console.log(error);
@@ -165,21 +196,21 @@ export class Song extends Component {
     return (
       <div className='Song'>Song
         <Container className='text-center' style={{backgroundColor: 'black', color: 'white', marginLeft: '20vw', width: '80vw'}}>
-            <img style={{width: 150, margin: 15}} src={this.state.songImage}/>
+            <img style={{width: 225, margin: 15}} src={this.state.songImage}/>
             <h3>{this.state.songTitle}</h3>
             <h5>{this.state.songArtist}</h5>
             <div>
               <Button variant='outline-light' style={{fontSize: 14, margin: 10}} onClick={this.handleModalShow}>Add to Playlist</Button>
-              {this.state.isFave ? <Button variant='outline-light' style={{fontSize: 14, margin: 10}} onClick={this.removeFromFavorites}>Remove Fave</Button> : <Button variant='outline-light' style={{fontSize: 14, margin: 10}} onClick={()=>this.addToFavorites({songID: this.state.songID, songTitle: this.state.songTitle, songArtist: this.state.songArtist, songImage: this.state.songImage})} >Add to Faves</Button>}
+              {this.state.isFave ? <Button variant='outline-light' style={{fontSize: 14, margin: 10}} onClick={this.removeFromFavorites}>Remove Fave</Button> : <Button variant='outline-light' style={{fontSize: 14, margin: 10}} onClick={this.addToFavorites} >Add to Faves</Button>}
             </div>
             <p>Preview song:</p>
             <audio controls='controls' src={this.state.audioSrc} />
             <br></br>
-            <a  href={this.state.spotLink}><Button style={{margin: 20}} variant='outline-secondary'>Click here to play on </Button></a>
+            <a  href={this.state.spotLink}><Button style={{margin: 20}} variant='light'>Click here to play on <img style={{height: 30}} src={logo}></img></Button></a>
             
         </Container>
-        <Modal onHide={this.handleModalClose} centered show={this.state.show}>
-          <Modal.Header closeButton><h4>Select a Playlist to add song to: </h4></Modal.Header>
+        <Modal className='my-modal' onHide={this.handleModalClose} centered show={this.state.show}>
+          <Modal.Header style={{color: 'black'}} closeButton><h4>Select a Playlist to add song to: </h4></Modal.Header>
           <Modal.Body>
             <Form>
             {this.state.playlists.map(item=>{
@@ -195,9 +226,15 @@ export class Song extends Component {
               )
             })}
             </Form>
+            {this.state.createPlaylistShow ? <Form style={{marginTop: 7}}>
+                <InputGroup >
+                  <FormControl value={(this.state.playlistInput)} name='playlistInput' onChange={this.handleOnChange} style={{backgroundColor: 'black', color: 'white'}}></FormControl>
+                  <Button size='sm' variant='light' onClick={this.createPlaylist}>Create</Button>
+                </InputGroup>
+              </Form> : <Button style={{marginTop: 7}} size='sm' variant='outline-dark' onClick={()=>this.setState({createPlaylistShow: true})}>Create PLaylist</Button>}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleModalSave}>Save</Button>
+            <Button variant='dark' onClick={this.handleModalSave}>Save</Button>
           </Modal.Footer>
         </Modal>
       </div>

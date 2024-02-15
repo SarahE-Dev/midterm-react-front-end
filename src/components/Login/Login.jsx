@@ -4,6 +4,7 @@ import './Login.css'
 import setAxiosAuthToken from '../../utils/setAxiosAuthToken'
 import { jwtDecode } from 'jwt-decode'
 import Axios from '../../utils/Axios'
+import logo from '../../images/Fyre.png'
 
 
 export class Login extends Component {
@@ -51,8 +52,7 @@ export class Login extends Component {
         <img
               
               alt=""
-              src="./images/Fyre.png"
-              id='logo'
+              src={logo}
               height='150px'
               style={{borderRadius: 20}}
               className="d-inline-block align-top"

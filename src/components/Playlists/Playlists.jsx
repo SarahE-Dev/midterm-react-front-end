@@ -23,12 +23,13 @@ export class Playlists extends Component {
     e.preventDefault()
     if(this.state.playlistInput !== ''){
       try {
-        const newPlaylist = await axios.post('http://localhost:3000/api/playlist/create-playlist', {
+        const newPlaylist = await Axios.post('http://localhost:3000/api/playlist/create-playlist', {
           username: this.props.user.username,
           playlistName: this.state.playlistInput
         })
         this.setState({
-          playlists: [...this.state.playlists, newPlaylist.data.payload]
+          playlists: [...this.state.playlists, newPlaylist.data.payload],
+          playlistInput: ''
         })
         
       } catch (error) {
@@ -40,7 +41,7 @@ export class Playlists extends Component {
 
   getPlaylists=async()=>{
     try {
-      const playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+      const playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
       this.setState({
         playlists: playlists.data.payload,
         playlistsRecieved: true
@@ -116,12 +117,12 @@ export class Playlists extends Component {
                 <Accordion.Item className='bg-black text-white' key={`item${item._id}`} eventKey={i}>
                   <Accordion.Header  key={`head${item._id}`}>{item.playlistName}</Accordion.Header>
                   <Accordion.Body key={`body${item._id}`}>
-                    {item.songs ? item.songs.map(li=>{
+                    {item.songs ? item.songs.map((li, i)=>{
                       return (
-                        <div className='d-flex justify-content-between mb-3 align-items-center'>
+                        <div key={`${i}${li._id}`} className='d-flex justify-content-between mb-3 align-items-center'>
                           <NavLink className='songLink' style={{textDecoration: 'none', color: 'blueviolet'}} to={`/song/${li.songID}`}>{li.songTitle}</NavLink>
                         
-                        <Button variant='secondary' size='sm' onClick={()=>this.removeSongFromPlaylist(item._id, li.songID)}><span
+                        <Button key={`${item._id}but`} variant='secondary' size='sm' onClick={()=>this.removeSongFromPlaylist(item._id, li.songID)}><span
                         style={{paddingTop: 4}}
                         className="material-symbols-outlined">
                         delete_forever
@@ -131,7 +132,7 @@ export class Playlists extends Component {
                         
                       )
                     }) : ''}
-                    <Button className='deleteP' style={{backgroundColor: 'rgb(199, 20, 86)', border: '1px solid white', color: 'white'}} onClick={()=>this.removePlaylist(item._id)}>Delete Playlist</Button>
+                    <Button key={`${item._id}hddfk`} className='deleteP' style={{backgroundColor: 'rgb(199, 20, 86)', border: '1px solid white', color: 'white'}} onClick={()=>this.removePlaylist(item._id)}>Delete Playlist</Button>
                   </Accordion.Body>
                   
                     

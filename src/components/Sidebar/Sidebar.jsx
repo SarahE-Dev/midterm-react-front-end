@@ -5,6 +5,7 @@ import { Container, Nav } from 'react-bootstrap'
 import {FaHeadphones} from 'react-icons/fa'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
+import logo from '../../images/Fyre.png'
 
 
 export class Sidebar extends Component {
@@ -16,8 +17,7 @@ export class Sidebar extends Component {
          <div className='text-center d-flex justify-content-center'>
          <img
               style={{margin: 30, height: '12vw', borderRadius: 20}}
-              src="./images/Fyre.png"
-              id='logo'
+              src={logo}
               className="d-inline-block align-top"
             />{' '}
         
@@ -29,16 +29,16 @@ export class Sidebar extends Component {
         variant='underline'>
         <Nav.Item>
         <Nav.Link
-        style={{color: 'white', fontFamily: 'Audiowide', fontSize: '2.25vw'}}
+        style={{color: 'white', fontFamily: 'Audiowide', fontSize: '2.25vw', textShadow: '2px -2px 2px fuchsia'}}
         eventKey='1' as={NavLink}  to='/favorites'> Favorites</Nav.Link>
         </Nav.Item>
         <Nav.Item>
         <Nav.Link
-        style={{color: 'white', fontFamily: 'Audiowide', fontSize: '2.25vw'}}
+        style={{color: 'white', fontFamily: 'Audiowide', fontSize: '2.25vw', textShadow: '2px -2px 2px deeppink'}}
         eventKey='2' as={NavLink}   to='/playlists'>Playlists</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link style={{color: 'purple', paddingTop: 150, fontFamily: 'Audiowide'}}
+          <Nav.Link style={{color: 'purple', marginTop: 120, fontFamily: 'Audiowide'}}
         eventKey='3' as={NavLink}   to='/login' onClick={this.props.handleUserLogout}>Logout</Nav.Link>
         </Nav.Item>
         </Nav>

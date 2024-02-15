@@ -24,7 +24,7 @@ const MainRouter = (props)=> {
             
             <Routes>
                 <Route path='/'  element={props.user ? <Navigate to="/music"/> : <Home />} />
-                <Route path="/login"  element={props.user ? <Navigate to="/music"/> : <Login handleUserLogin={props.handleUserLogin} />} />
+                <Route path="/login"  element={props.user ? <Navigate to="/music"/> : <Login getSpotifyToken={props.getSpotifyToken} handleUserLogin={props.handleUserLogin} />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/music" element={<PrivateRoute >
               <MusicMain user={props.user} 
