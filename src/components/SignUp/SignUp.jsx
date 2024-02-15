@@ -126,17 +126,17 @@ export class SignUp extends Component {
          <Form.Group as={Col} >
           <Form.Control required value={this.state.firstName} onChange={this.handleOnChange} placeholder="First name" name='firstName'
            />
-           <Form.Text>{this.state.firstNameError}</Form.Text>
+           <Form.Text className='text-white'>{this.state.firstNameError}</Form.Text>
           </Form.Group>
           <Form.Group as={Col}>
           <Form.Control value={this.state.lastName} onChange={this.handleOnChange} required name='lastName' placeholder="Last name" />
-          <Form.Text>{this.state.lastNameError}</Form.Text>
+          <Form.Text className='text-white'>{this.state.lastNameError}</Form.Text>
         </Form.Group>
         </Row>   
         <Row className='mb-3'>
             <Col>
             <Form.Control required value={this.state.email} onChange={this.handleOnChange} type='email' name='email' placeholder='Enter Email'/>
-            <Form.Text>{this.state.emailError}</Form.Text>
+            <Form.Text className='text-white'>{this.state.emailError}</Form.Text>
             </Col>
         </Row>
         <Row className='mb-3'>
@@ -149,17 +149,17 @@ export class SignUp extends Component {
             <Form.Control value={this.state.username} name='username' onChange={this.handleOnChange} id="inlineFormInputGroup" placeholder="Username" required />
             
           </InputGroup>
-          <Form.Text>{this.state.usernameError}</Form.Text>
+          <Form.Text className='text-white'>{this.state.usernameError}</Form.Text>
         </Col>
         </Row>
         <Row className='mb-3'>
          <Form.Group as={Col}>
           <Form.Control required value={this.state.password} onChange={this.handleOnChange} type='password' name='password' placeholder="Password" />
-          <Form.Text>{this.state.passwordError}</Form.Text>
+          <Form.Text className='text-white'>{this.state.passwordError}</Form.Text>
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Control required onChange={this.handleOnChange} value={this.state.confirmPassword} name='confirmPassword' placeholder="Confirm Password" />
-          <Form.Text>{this.state.confirmPasswordError}</Form.Text>
+          <Form.Text className='text-white'>{this.state.confirmPasswordError}</Form.Text>
           </Form.Group>
           
         </Row>
