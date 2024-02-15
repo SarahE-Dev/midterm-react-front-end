@@ -1,8 +1,15 @@
 
 .Navbar {
     height: 10vh;
-    border-bottom: 3px solid #1DB954;
+    border-bottom: 3px solid deeppink;
     width: 100vw;
+    position: fixed;
+    top: 0;
+    
+    
+    
     
 }
+
+
 

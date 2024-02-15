@@ -13,5 +13,18 @@
     padding-top: 30vh;
 }
 
+.songLink:hover{
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.deleteP:hover {
+    background-color: white;
+    color: black;
+}
+
+
 
 

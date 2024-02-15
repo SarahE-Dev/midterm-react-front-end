@@ -1,15 +1,17 @@
-.MusicMain {
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10vh;
-    margin-left: 20vw;
-}
+
 
 .back {
     background-color: black;
     height: 90vh;
+    overflow: scroll;
+    color: white;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    
+    margin-left: 20vw;
+    width: 80vw;
+    
 }
+

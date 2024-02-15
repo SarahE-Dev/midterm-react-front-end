@@ -114,7 +114,14 @@ export class SignUp extends Component {
   render() {
     return (
         <div className="Login">
-        <Image style={{width: '50vw'}} src='./src/assets/Spotify_Logo_RGB_Black.png' />
+        <img
+              style={{borderRadius: 20}}
+              alt=""
+              src="./images/Fyre.png"
+              id='logo'
+              height="150"
+              className="d-inline-block align-top"
+            />{' '}
         <Form onSubmit={this.handleOnSubmit} className='form' >
          <Row className='mb-3'>
          <Form.Group as={Col} >

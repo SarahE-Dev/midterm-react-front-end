@@ -13,3 +13,19 @@
     color: blue;
 }
 
+.my-modal .modal-content {
+    background-color: purple;
+    color: white;
+}
+
+
+.loading {
+    background-color: black;
+    height: 90vh;
+    color: white;
+    margin-left: 20vw;
+    text-align: center;
+    padding-top: 40vh;
+    font-size: 25px;
+}
+

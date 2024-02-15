@@ -25,6 +25,10 @@ export class App extends Component {
     let currentUser = window.localStorage.getItem('jwt') ? jwtDecode(window.localStorage.getItem('jwt')) : null;
     console.log(currentUser);
     if(currentUser && currentUser.exp > (Date.now() / 1000)){
+      let token_time = window.localStorage.getItem('token_time')
+      if(!token_time || (token_time < Date.now() - 3599)){
+        this.grabSpotifyToken()
+      }
       let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${currentUser.username}`)
       this.setState({
         user: {
@@ -39,17 +43,24 @@ export class App extends Component {
     setAxiosAuthToken(window.localStorage.getItem('jwt'))
     
   }
-  handleUserLogin= async (user)=>{
-    
+
+  grabSpotifyToken=async()=>{
     let token = await axios.post('https://accounts.spotify.com/api/token', grantType, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
-    let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
-    console.log(token);
-    console.log(playlists);
     window.localStorage.setItem('access_token', token.data.access_token)
+    window.localStorage.setItem('token_time', Date.now())
+  }
+
+  handleUserLogin= async (user)=>{
+    
+    this.grabSpotifyToken()
+    let playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
+    
+    console.log(playlists);
+    
     this.setState({
       user: user,
       access_token: window.localStorage.getItem('access_token'),
@@ -60,7 +71,8 @@ export class App extends Component {
     this.setState({
       user: null,
       access_token: '',
-      playlists: []
+      playlists: [],
+      token_time: ''
     })
     window.localStorage.removeItem('jwt')
     window.localStorage.removeItem('access_token')
@@ -74,7 +86,7 @@ export class App extends Component {
     return (
       <div>
         <ToastContainer position='top-center'/>
-        <MainRouter playlists={this.state.playlists} access_token={this.state.access_token} handleUserLogout = {this.handleUserLogout} handleUserLogin = {this.handleUserLogin} 
+        <MainRouter getSpotifyToken={this.grabSpotifyToken} playlists={this.state.playlists} access_token={this.state.access_token} handleUserLogout = {this.handleUserLogout} handleUserLogin = {this.handleUserLogin} 
         user={this.state.user} />
         
       </div>

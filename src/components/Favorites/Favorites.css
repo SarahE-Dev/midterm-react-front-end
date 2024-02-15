@@ -1,7 +1,15 @@
 .Favorites {
     height: 90vh;
     width: 80vw;
-    background-color: black;
+    background-color: rgb(17, 17, 17);
     color: white;
     margin-left: 20vw;
+    overflow: scroll;
 }
+
+.titleHover:hover {
+    color: deeppink;
+}
+
+
+

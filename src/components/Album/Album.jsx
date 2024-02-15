@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Album.css'
 import axios from 'axios'
-import { Container, Card, ListGroup, Button } from 'react-bootstrap'
+import { Container, Card, ListGroup, Button, Form, Modal } from 'react-bootstrap'
 import { Link, NavLink } from 'react-router-dom'
 import Axios from '../../utils/Axios'
 
@@ -17,7 +17,13 @@ export class Album extends Component {
         albumArtist: '',
         favoriteSongs: [],
         favoriteAlbums: [],
-        username: ''
+        username: '',
+        playlists: [],
+        playlistsRecieved: false,
+        show: false,
+        playlistIDSelected: '',
+        songSelection: {},
+        albumDate: ''
     }
     checkForFaveSong=(id)=>{
       let found = this.state.favoriteSongs.filter(elem=>elem.songID === id)
@@ -56,73 +62,175 @@ export class Album extends Component {
             favoriteAlbums: newFave.data.payload.favoriteAlbums,
             favoriteSongs: newFave.data.payload.favoriteSongs
           })
-          console.log(newFave);
         } catch (error) {
           console.log(error);
         }
     }
+
+    handlePlaylistSelection=(e)=>{
+      this.setState({
+        playlistIDSelected: e.target.ariaLabel
+      })
+      console.log(this.state);
+}
+
+handleModalSave= async ()=>{
+  try {
+    const updatedPlaylist = await Axios.put(`http://localhost:3000/api/playlist/add-song/${this.state.playlistIDSelected}`, this.state.songSelection)
+    console.log(updatedPlaylist);
+  } catch (error) {
+    console.log(error);
+  }
+  this.setState({
+    show: false
+  })
+}
+
+    getPlaylists=async()=>{
+      try {
+        const playlists = await axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+        this.setState({
+          playlists: playlists.data.payload,
+          playlistsRecieved: true
+        })
+        console.log(playlists);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    handleModalClose=()=>{
+      this.setState({
+        show: false
+      })
+    }
+
+    
+
+    handleModalShow=(songID, songTitle, songArtist, songImage)=>{
+      this.setState({
+        show: true,
+        songSelection: {
+          songID: songID,
+          songTitle: songTitle,
+          songArtist: songArtist,
+          songImage: songImage
+        }
+      })
+    }
+
+    getAlbumData=async()=>{
+      try {
+        const searchParameters = {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+          }
+        const path = window.location.pathname.split('/')
+        const id = path[path.length-1]
+        const album = await axios.get(`https://api.spotify.com/v1/albums/${id}`, searchParameters)
+        console.log(album);
+        const user = await Axios.get(`http://localhost:3000/api/user/get-user-by-id/${this.props.user.id}`)
+        const albumDate = new Date(album.data.release_date)
+        const actualDate = albumDate.toDateString()
+        this.setState({albumArtist: album.data.artists[0].name,
+            albumTitle: album.data.name,
+            albumTracks: album.data.tracks.items,
+            favoriteAlbums: user.data.payload.favoriteAlbums,
+            favoriteSongs: user.data.payload.favoriteSongs,
+            username: user.data.payload.username,
+            albumImage: album.data.images[0].url,
+            albumDate: actualDate
+        })
+    } catch (error) {
+        console.log(error);
+    }
+    }
+
+    displayAlbumInfo=()=>{
+        return (
+          <div className='Album'>
+          <div className="albumMain">
+          <Modal className='my-modal' onHide={this.handleModalClose} centered show={this.state.show}>
+            <Modal.Header closeButton><h4>Select a Playlist to add song to: </h4></Modal.Header>
+            <Modal.Body>
+              <Form>
+              {this.state.playlists.map(item=>{
+                return (
+                  <Form.Check
+                  key={item._id}
+                  onChange={this.handlePlaylistSelection}
+                  type='radio'
+                  label={item.playlistName}
+                  name='playlists'
+                  aria-label={item._id}
+                   />
+                )
+              })}
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.handleModalSave}>Save</Button>
+            </Modal.Footer>
+          </Modal>
+              <Card style={{width: '60vw', marginLeft: '10vw', marginTop: '5vh', backgroundColor: 'black', color: 'white', border: '1px solid white'}}>
+                  <Card.Header>
+                  <Card.Title className='text-center'>{this.state.albumTitle}</Card.Title>
+                  <Card.Subtitle className='text-center'>{this.state.albumArtist}</Card.Subtitle>
+                  <Card.Text className='text-center'>{this.state.albumDate}</Card.Text>
+                  </Card.Header>
+                  <Card.Body className='text-center'>
+                  <Card.Img style={{width: 100, height: 100}} src={this.state.albumImage}>
+                  </Card.Img>
+                  </Card.Body>
+                  <Card.Body>
+                  <ListGroup as='ul'>
+                      {this.state.albumTracks.map((track)=>{
+                          return (
+                                <ListGroup.Item key={track.name} className='d-flex align-items-md-center text-truncate justify-content-sm-between' style={{height: '7vh', backgroundColor: 'black'}}>
+                                <NavLink className='nlink text-truncate' to={`/song/${track.id}`} style={{color: 'white', paddingTop: '5px', textDecoration: 'none'}} key={track.id} >{track.name}</NavLink>
+         <div className='justify-content-e'  >  
+         <Button size='sm' variant='outline-light' onClick={()=>this.handleModalShow(track.id, track.name, this.state.albumArtist, this.state.albumImage)} style={{fontSize: 10}}>Add to Playlist</Button> 
+         {this.checkForFaveSong(track.id) ? <Button variant='outline-light' size='sm' style={{fontSize: 10, marginLeft: 5}} onClick={()=>{this.removeFromFavorites(track.id, track.name, this.state.albumArtist, this.state.albumImage)}} >Remove Fave                       
+        </Button> : <Button variant='outline-light' size='sm' style={{fontSize: 10, marginLeft: 5}} onClick={()=>{this.addToFavorites(track.id, track.name, this.state.albumArtist, this.state.albumImage)}} >Add To Faves                        
+        </Button>}                   
+       
+        </div> 
+                                </ListGroup.Item>
+                                
+                          )
+                      })}
+                  </ListGroup>
+                  </Card.Body>
+              </Card>
+          </div>
+        </div>
+        )
+    }
+
+    componentDidUpdate(prevProps, prevState){
+      if(!this.props.user || (prevState.playlistsRecieved && prevState.playlistsRecieved === this.state.playlistsRecieved)){
+        return
+      }
+      this.getAlbumData()
+      this.getPlaylists()
+      
+    }
     
     async componentDidMount(){
-        try {
-            const searchParameters = {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${this.props.access_token}`
-                }
-              }
-            const path = window.location.pathname.split('/')
-            const id = path[path.length-1]
-            const album = await axios.get(`https://api.spotify.com/v1/albums/${id}`, searchParameters)
-            console.log(album);
-            const user = await Axios.get(`http://localhost:3000/api/user/get-user-by-id/${this.props.user.id}`)
-            console.log(user);
-            this.setState({albumArtist: album.data.artists[0].name,
-                albumTitle: album.data.name,
-                albumTracks: album.data.tracks.items,
-                favoriteAlbums: user.data.payload.favoriteAlbums,
-                favoriteSongs: user.data.payload.favoriteSongs,
-                username: user.data.payload.username,
-                albumImage: album.data.images[0].url
-            })
-        } catch (error) {
-            console.log(error);
-        }
+      if(!this.props.user){
+        return
+      } 
+        this.getPlaylists()
+        this.getAlbumData()
     }
   render() {
     return (
-      <div className='Album'>
-        <div className="albumMain">
-            <Card style={{width: '60vw', marginLeft: '10vw', marginTop: '5vh', backgroundColor: 'gray'}}>
-                <Card.Header>
-                <Card.Title className='text-center'>{this.state.albumTitle}</Card.Title>
-                <Card.Subtitle className='text-center'>{this.state.albumArtist}</Card.Subtitle>
-                </Card.Header>
-                <Card.Body className='text-center'>
-                <Card.Img style={{width: 100, height: 100}} src={this.state.albumImage}>
-                </Card.Img>
-                </Card.Body>
-                <Card.Body>
-                <ListGroup as='ul'>
-                    {this.state.albumTracks.map((track)=>{
-                        return (
-                              <ListGroup.Item key={track.name} className='d-flex align-items-md-center text-truncate justify-content-sm-between' style={{height: '7vh', backgroundColor: 'gray'}}>
-                              <NavLink className='nlink text-truncate' to={`/song/${track.id}`} style={{color: 'black', paddingTop: '5px'}} key={track.id} >{track.name}</NavLink>
-       <div className='justify-content-e'  >  
-       <Button style={{fontSize: '1.5vw'}}>Add to Playlist</Button> 
-       {this.checkForFaveSong(track.id) ? <Button style={{fontSize: '1.5vw'}} onClick={()=>{this.removeFromFavorites(track.id, track.name, this.state.albumArtist, this.state.albumImage)}} >Remove Fave                       
-      </Button> : <Button style={{fontSize: '1.5vw'}} onClick={()=>{this.addToFavorites(track.id, track.name, this.state.albumArtist, this.state.albumImage)}} >Add To Faves                        
-      </Button>}                   
-     
-      </div> 
-                              </ListGroup.Item>
-                              
-                        )
-                    })}
-                </ListGroup>
-                </Card.Body>
-            </Card>
-        </div>
-      </div>
+        <>
+        {this.state.playlistsRecieved ? this.displayAlbumInfo() : <div className='loading'>Loading...</div>}
+        
+        </>
     )
   }
 }

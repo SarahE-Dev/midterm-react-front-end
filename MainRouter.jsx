@@ -20,14 +20,16 @@ const MainRouter = (props)=> {
         <Router>
             <Nav user={props.user}
         handleUserLogout = {props.handleUserLogout} />
-            {props.user ? <Sidebar></Sidebar> : ''}
+            {props.user ? <Sidebar handleUserLogout={props.handleUserLogout}></Sidebar> : ''}
             
             <Routes>
                 <Route path='/'  element={props.user ? <Navigate to="/music"/> : <Home />} />
                 <Route path="/login"  element={props.user ? <Navigate to="/music"/> : <Login handleUserLogin={props.handleUserLogin} />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/music" element={<PrivateRoute >
-              <MusicMain user={props.user} access_token={props.access_token} />
+              <MusicMain user={props.user} 
+              getSpotifyToken={props.getSpotifyToken}
+              access_token={props.access_token} />
             </PrivateRoute>} />
             <Route path="/music/:id" element={<PrivateRoute >
               <Album user={props.user} access_token={props.access_token} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Favorites.css'
 import Axios from '../../utils/Axios'
-import { Card, ListGroup } from 'react-bootstrap'
+import { Card, Container, ListGroup, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 export class Favorites extends Component {
@@ -40,15 +40,30 @@ export class Favorites extends Component {
   render() {
     return (
       <div className='Favorites'>
+        <Container>
+          <Row className='mx-4 row row-cols-4'>
         {
           this.state.favoriteSongs.map((song)=>{
             return (
-              <Link to={`/song/${song.songID}`}>
-            <h1 key={song.songID}>{song.songTitle}</h1>
-            </Link>
+              <Card style={{margin: 45, border: '1px solid white', padding: 20}}  className='text-center bg-black text-white card'>
+                <Card.Img variant='top' src={song.songImage} />
+                <Card.Body>
+                  <Link style={{textDecoration: 'none', color: 'white'}} to={`/song/${song.songID}`}>
+                  <Card.Title className='titleHover'   key={song.songID}>{song.songTitle}</Card.Title>
+                  </Link>
+                  
+                </Card.Body>
+                <Card.Footer>
+                  <Card.Subtitle style={{color: 'purple'}}>{song.songArtist}</Card.Subtitle>
+                </Card.Footer>
+            
+            
+              </Card>
             )
           })
         }
+          </Row>
+        </Container>
       </div>
     )
   }

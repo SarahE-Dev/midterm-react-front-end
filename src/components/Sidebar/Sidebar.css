@@ -1,13 +1,16 @@
 .Sidebar {
     position: fixed;
     left: 0;
+    top: '10vh';
     height: 90vh;
     background-color: rgb(21, 21, 21);
     width: 20vw;
     border-right: 3px solid rgb(114, 23, 167);
+    padding-right: 3vw;
+    padding-left: 2vw;
     display: flex;
     flex-direction: column;
-    
+    position: fixed;
     align-items: center;
     
 }

@@ -48,7 +48,15 @@ export class Login extends Component {
     return (
       
       <div className='Login'>
-        <Image style={{width: '50vw'}} src='./src/assets/Spotify_Logo_RGB_Black.png' />
+        <img
+              
+              alt=""
+              src="./images/Fyre.png"
+              id='logo'
+              height='150px'
+              style={{borderRadius: 20}}
+              className="d-inline-block align-top"
+            />{' '}
         <Form onSubmit={this.handleOnSubmit}  className='form' >
       <Form.Group className="mb-5" >
       <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
