@@ -10,9 +10,8 @@ import setAxiosAuthToken from './utils/setAxiosAuthToken'
 import axios from 'axios'
 import Axios from './utils/Axios'
 
-const clientId = 'ecd8fa6a04bd4deab879476a85c542b4'
-const clientSecret = '0058529087bb4a53872707043a4cf1ff'
-const grantType = `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`
+
+const grantType = `grant_type=client_credentials&client_id=${import.meta.env.VITE_SPOTIFY_CLIENT_ID}&client_secret=${import.meta.env.VITE_SPOTIFY_CLIENT_SECRET}`
 
 
 export class App extends Component {
