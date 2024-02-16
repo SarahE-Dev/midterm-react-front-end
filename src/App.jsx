@@ -14,6 +14,8 @@ import Axios from './utils/Axios'
 const grantType = `grant_type=client_credentials&client_id=${import.meta.env.VITE_SPOTIFY_CLIENT_ID}&client_secret=${import.meta.env.VITE_SPOTIFY_CLIENT_SECRET}`
 
 
+
+
 export class App extends Component {
   state = {
     user: null,
@@ -28,7 +30,7 @@ export class App extends Component {
       if(!token_time || (Date.now() - token_time > 3599)){
         this.grabSpotifyToken()
       }
-      let playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${currentUser.username}`)
+      let playlists = await Axios.get(`/api/playlist/get-user-playlists/${currentUser.username}`)
       this.setState({
         user: {
           username: currentUser.username,
@@ -56,7 +58,7 @@ export class App extends Component {
   handleUserLogin= async (user)=>{
     
     this.grabSpotifyToken()
-    let playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${user.username}`)
+    let playlists = await Axios.get(`/api/playlist/get-user-playlists/${user.username}`)
     
     this.setState({
       user: user,

@@ -48,7 +48,7 @@ export class Song extends Component {
       e.preventDefault()
       if(this.state.playlistInput !== ''){
         try {
-          const newPlaylist = await Axios.post('http://localhost:3000/api/playlist/create-playlist', {
+          const newPlaylist = await Axios.post('/api/playlist/create-playlist', {
             username: this.props.user.username,
             playlistName: this.state.playlistInput
           })
@@ -72,7 +72,7 @@ export class Song extends Component {
     addToFavorites= async ()=>{
       
       try {
-        let newFave = await Axios.put(`http://localhost:3000/api/user/add-favorite-song/${this.state.username}`, {
+        let newFave = await Axios.put(`/api/user/add-favorite-song/${this.state.username}`, {
           songID: this.state.songID,
           songArtist: this.state.songArtist,
           songTitle: this.state.songTitle,
@@ -91,7 +91,7 @@ export class Song extends Component {
 
     getPlaylists=async()=>{
       try {
-        const playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+        const playlists = await Axios.get(`/api/playlist/get-user-playlists/${this.props.user.username}`)
         this.setState({
           playlists: [...playlists.data.payload],
           playlistsRecieved: true
@@ -103,7 +103,7 @@ export class Song extends Component {
 
     removeFromFavorites=async()=>{
       try {
-        let goneFave = await Axios.put(`http://localhost:3000/api/user/remove-favorite-song/${this.props.user.username}`, {
+        let goneFave = await Axios.put(`/api/user/remove-favorite-song/${this.props.user.username}`, {
           songID: this.state.songID
         })
         this.setState({
@@ -136,7 +136,7 @@ export class Song extends Component {
       const path = window.location.pathname.split('/')
       const id = path[path.length-1]
       const song = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, searchParameters)
-      const user = await Axios.get(`http://localhost:3000/api/user/get-user-by-id/${this.props.user.id}`)
+      const user = await Axios.get(`/api/user/get-user-by-id/${this.props.user.id}`)
       console.log(song);
       console.log(user);
       console.log(this.state.songID);
@@ -169,7 +169,7 @@ export class Song extends Component {
 
   handleModalSave= async ()=>{
     try {
-      const updatedPlaylist = await Axios.put(`http://localhost:3000/api/playlist/add-song/${this.state.playlistIDSelected}`, {
+      const updatedPlaylist = await Axios.put(`/api/playlist/add-song/${this.state.playlistIDSelected}`, {
          songID: this.state.songID,
          songTitle: this.state.songTitle,
          songArtist: this.state.songArtist,

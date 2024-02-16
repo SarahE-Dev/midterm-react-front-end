@@ -12,7 +12,7 @@ export class Favorites extends Component {
   }
   getFavorites=async()=>{
     try {
-      const user = await Axios.get(`http://localhost:3000/api/user/get-user-by-id/${this.props.user.id}`)
+      const user = await Axios.get(`/api/user/get-user-by-id/${this.props.user.id}`)
       console.log(user);
       this.setState({
         favoriteAlbums: user.data.payload.favoriteAlbums,

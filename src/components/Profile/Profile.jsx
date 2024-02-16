@@ -95,7 +95,7 @@ export class Profile extends Component {
     e.preventDefault()
     if(this.state.editable){
         try {
-            let updatedUser = await Axios.put(`http://localhost:3000/api/user/update-user/${this.state.id}`, {
+            let updatedUser = await Axios.put(`/api/user/update-user/${this.state.id}`, {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 username: this.state.username,

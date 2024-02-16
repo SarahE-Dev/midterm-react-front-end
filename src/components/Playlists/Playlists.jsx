@@ -23,7 +23,7 @@ export class Playlists extends Component {
     e.preventDefault()
     if(this.state.playlistInput !== ''){
       try {
-        const newPlaylist = await Axios.post('http://localhost:3000/api/playlist/create-playlist', {
+        const newPlaylist = await Axios.post('/api/playlist/create-playlist', {
           username: this.props.user.username,
           playlistName: this.state.playlistInput
         })
@@ -41,7 +41,7 @@ export class Playlists extends Component {
 
   getPlaylists=async()=>{
     try {
-      const playlists = await Axios.get(`http://localhost:3000/api/playlist/get-user-playlists/${this.props.user.username}`)
+      const playlists = await Axios.get(`/api/playlist/get-user-playlists/${this.props.user.username}`)
       this.setState({
         playlists: playlists.data.payload,
         playlistsRecieved: true
@@ -53,7 +53,7 @@ export class Playlists extends Component {
 
   removeSongFromPlaylist=async(plID, sID)=>{
     try {
-      const deleted = await Axios.put(`http://localhost:3000/api/playlist/delete-song/${plID}/${sID}`)
+      const deleted = await Axios.put(`/api/playlist/delete-song/${plID}/${sID}`)
       console.log(deleted);
       this.getPlaylists()
     } catch (error) {
@@ -63,7 +63,7 @@ export class Playlists extends Component {
 
   removePlaylist=async(id)=>{
     try {
-        const deleted = await Axios.delete(`http://localhost:3000/api/playlist/delete-playlist/${id}`)
+        const deleted = await Axios.delete(`/api/playlist/delete-playlist/${id}`)
         console.log(deleted);
         const updatedPlaylists = this.state.playlists.filter(pl=>pl._id !== id)
         this.setState({
